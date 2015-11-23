@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>|	Particle motion</title>
+		<link href="assets/app/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<link href="assets/app/css/main.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="assets/app/lib/jquery.js"></script>
+		<script type="text/javascript" src="assets/app/lib/jquery-ui.js"></script>		
+		<script type="text/javascript" src="assets/app/lib/touchpunch.js"></script>		
+</head>
+
+<body>
+	<div id="params">
+		<div class="control Q">
+			<span class="param_letter_mark">Q</span>
+			<span id="Q_sign">+</span>
+			<input type="checkbox" id="Q_checkbox"/>
+		</div>
+		
+		<div class="control speed">
+			<span class="param_letter_mark">V</span>	
+			<div class="control-input-cont">
+				<div id="v_slider" class="slider"></div>
+				<span>
+					<input class="control-input amount" value="5" type="text" id="v_amount" readonly />
+				</span>
+			</div>
+		</div>
+		
+		<div class="control vx">
+			<span class="param_letter_mark">Vx</span>
+			<div class="control-input-cont">
+				<div id="vx_slider" class="slider"></div>
+				<span>
+					<input class="control-input amount" value="10" type="text" id="vx_amount" readonly />
+				</span>
+			</div>
+		</div>
+		
+		<div class="control vy">
+			<span class="param_letter_mark">Vy</span>	
+			<div class="control-input-cont">
+				<div id="vy_slider" class="slider"></div>
+				<span>
+					<input class="control-input amount" value="10" type="text" id="vy_amount" readonly />
+				</span>
+			</div>			
+		</div>
+
+		<div class="control B">
+			<span class="param_letter_mark">B</span>
+			<div class="control-input-cont">
+				<div id="B_slider" class="slider"></div>
+				<span>
+					<input class="control-input amount" value="1" type="text" id="B_amount" readonly />
+				</span>
+			</div>
+			<input type="checkbox" id="show_B"/>
+		</div>
+		
+		<div id="rotations">
+			<span id="rotaion_params_title">Rotations</span>
+			
+			<div class="control rotZ">
+				<span class="param_letter_mark">x</span>
+				<div class="control-input-cont">
+					<div id="rotZ_slider" class="slider"></div>
+					<span>
+						<input class="control-input amount" value="0" type="text" id="rotZ_amount" readonly />
+					</span>
+				</div>
+			</div>
+			
+			<div class="control rotY">
+				<span class="param_letter_mark">y</span>
+				<div class="control-input-cont">
+					<div id="rotY_slider" class="slider"></div>
+					<span>
+						<input class="control-input amount" value="0" type="text" id="rotY_amount" readonly />
+					</span>
+				</div>
+			</div>
+			
+			<div class="control rotX">
+				<span class="param_letter_mark">z</span>
+				<div class="control-input-cont">
+					<div id="rotX_slider" class="slider"></div>
+					<span>
+						<input class="control-input amount" value="0" type="text" id="rotX_amount" readonly />
+					</span>
+				</div>
+			</div>
+		</div>		
+		
+		<div class="control buttons" id="buttons">	
+			<button id="run_particle">Run</button>	
+<!--			<button id="again">Again</button>-->
+			<button id="toggle-button">Show parameters</button>	
+		</div>			
+	</div>
+  
+	<script type="text/javascript" src="assets/app/lib/three.min.js"></script>
+	<script type="text/javascript" src="assets/app/lib/helvetiker_regular.typeface.js"></script>
+  <script type="text/javascript" src="assets/app/js/controls.js"></script>
+  <script type="text/javascript" src="assets/app/js/reqAnimFrameFix.js"></script>
+  <script type="text/javascript" src="assets/app/js/main.js"></script>
+</body>
+</html>
+
+<!---->
