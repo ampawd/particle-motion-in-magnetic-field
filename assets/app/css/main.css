@@ -1,0 +1,80 @@
+ html, body {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+canvas {
+	position: absolute;
+	left: 0;
+	top: 0;	
+}
+
+#params {	
+	position: absolute;
+	right: 200px;
+	z-index: 99999;
+	width: 200px;
+}
+
+.control {
+	margin-top: 10px;
+	width: 400px;
+}
+
+.control-input-cont {	
+	float: right;	
+}
+
+.slider {
+	display: inline-block;
+	width: 50px;
+	vertical-align: middle;
+}
+
+.control-input {
+	width: 100px;
+	border: 0;
+	color: #f6931f;
+	font-weight:bold;
+	margin-left: 15px;
+}
+
+.param_letter_mark {
+	font-size: 25px;
+}
+
+.ui-slider-horizontal {
+	width: 100px;
+	height: 23px;
+	background: #ccc;
+}
+
+.ui-slider-range {
+	background: white;
+}
+
+.ui-slider-handle {
+	width: 30px !important;
+	height: 30px !important;
+	background: #8876ff !important;
+}
+
+.amount {
+	font-size: 20px;
+	width: 150px;
+}
+
+#rotations {
+	margin-top:  30px;
+}
+
+#rotaion_params_title {
+	font-size: 20px;
+}
+
+#Q_sign { font-size: 30px; font-weight: bold;}
