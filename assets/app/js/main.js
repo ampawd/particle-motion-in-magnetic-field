@@ -254,17 +254,15 @@
 			renderer.render(scene, camera);		
 		}		
 		
-		$(renderer.domElement).off("mousedown");	
-		$(renderer.domElement).off("mousemove");	
-		$(renderer.domElement).off("mouseup");	
-		$(document).off("mouseup");	
-		
+		$(renderer.domElement).off("mousedown");
+		$(renderer.domElement).off("mousemove");
+		$(renderer.domElement).off("mouseup");
 		$(renderer.domElement).on("mousedown", function(e) {			
 			var startX = e.clientX,
-					startY = e.clientY,		
-					diffX = startX, 
-					diffY =	startY,
-					rotX, rotY;
+				startY = e.clientY,		
+				diffX = startX, 
+				diffY =	startY,
+				rotX, rotY;
 			
 			$(renderer.domElement).on("mousemove", function(ee) {
 				diffX = ee.clientX - startX;
@@ -284,13 +282,12 @@
 				params.startAngleY = scene.rotation.y*radToDeg;
 				params.startAngleZ = scene.rotation.z*radToDeg;
 				
-				renderer.render(scene, camera);		//		
+				renderer.render(scene, camera);
 			});
 		});
 			
 		$(document).on("mouseup", function(e) {			
 			$(renderer.domElement).off("mousemove");
-			$(renderer.domElement).off("mouseup");
 		});
 	}
 	
