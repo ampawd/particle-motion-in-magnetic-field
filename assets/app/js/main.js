@@ -1,26 +1,27 @@
 ;(function($) {
 	//	globals
 	var renderer,
-			scene,
-			camera,
-			runID,
-			helixPath 			= [],	
-			params = {
-				Q: 							-1,
-				vx: 						10,
-				vy: 						10,			
-				B: 							1,				
-				v:							5,
-				B_steps:				150,
-				particleRadius:	10,
-				startAngleX:		15,
-				startAngleY:		70,
-				startAngleZ:		0
-			},
-			
-			labels = {
-				B: {}
-			};
+		scene,
+		camera,
+		runID,
+		helixPath 			= [],	
+		params = {
+			Q: 							-1,
+			vx: 						10,
+			vy: 						10,			
+			B: 							1,				
+			v:							5,
+			B_steps:				150,
+			particleRadius:	10,
+			startAngleX:		15,
+			startAngleY:		70,
+			startAngleZ:		0
+		},
+		
+		labels = {
+			B: {}
+		};
+
 	
 	//	constant globals
 	const radToDeg = 180 / Math.PI;	
@@ -53,6 +54,15 @@
 	}
 
 	function initDefaults() {
+		$(".param_letter_mark").hover(function(e) {
+			$(this).css({"cursor": "pointer"});
+			$(".param_description").css({"display": "none"});	
+			var thisParamDescr = $(e.target).parent().find(".param_description");
+			thisParamDescr.css({"display": "inline"});
+		});
+		$("#params").mouseout(function() { $(".param_description").css({"display": "none"}); });
+		
+
 		if ($("#show_B").attr("checked")) {			
 			scene.add(magnetic_vecs);
 		}
@@ -137,40 +147,50 @@
 	
 	function MagneticVectors() {
 		var parent = new THREE.Object3D(),
-				vcolor = 0x888888,	//	0x00AAFF
-				from,
-				to,
-				vec,
-				step = params.B_steps*0.5,
-				z0 = -length/1.5,
-				z1 = length/1.5,
-				midZ = (z0+z1)*0.5,	t = 3;
-				for (var j = -t*step, l1 = -j; j <= l1; j += step) {
-					for (var i = -l1; i <= l1; i += step) {
-						from = new THREE.Vector3( i, j, -z1);
-						to = new THREE.Vector3( i, j, midZ);
-						vec = ArrowedVector(from, to, vcolor, true);
-						parent.add(vec);
-						
-						from = new THREE.Vector3( i, j, midZ);
-						to = new THREE.Vector3( i, j, z1);
-						vec = ArrowedVector(from, to, vcolor, false);
-						parent.add(vec);
-					}
-				}				
-			return parent;
+			vcolor = 0x888888,	//	0x00AAFF
+			from,
+			to,
+			vec,
+			step = params.B_steps*0.5,
+			z0 = -length/1.5,
+			z1 = length/1.5,
+			midZ = (z0+z1)*0.5,	t = 3;
+			for (var j = -t*step, l1 = -j; j <= l1; j += step) {
+				for (var i = -l1; i <= l1; i += step) {
+					from = new THREE.Vector3( i, j, -z1);
+					to = new THREE.Vector3( i, j, midZ);
+					vec = ArrowedVector(from, to, vcolor, true);
+					parent.add(vec);
+					
+					from = new THREE.Vector3( i, j, midZ);
+					to = new THREE.Vector3( i, j, z1);
+					vec = ArrowedVector(from, to, vcolor, false);
+					parent.add(vec);
+				}
+			}				
+		return parent;
 	}
 	
 	function ArrowedVector(from, to, color, addCircle, unit) {
 		var parent = new THREE.Object3D(),
-				headLength = 25,
-				headWidth = 7,
-				direction = to.clone().sub(from),
-				length = direction.length(),
-				magnitudeVec = new THREE.ArrowHelper(direction.normalize(), from, unit ? 1 : length, color, headLength, headWidth );
-				parent.add( magnitudeVec );
-				if (addCircle)
-					parent.add( circle(10, from.x, from.y, from.z, color) );				
+			headLength = 25,
+			headWidth = 7,
+			direction = to.clone().sub(from),
+			length = direction.length(),
+			magnitudeVec = new THREE.ArrowHelper(direction.normalize(), from, unit ? 1 : length, color, headLength, headWidth );
+			parent.add( magnitudeVec );
+			if (addCircle) {
+				parent.add( circle(10, from.x, from.y, from.z, color) );				
+			}
+			headLength = 25,
+			headWidth = 7,
+			direction = to.clone().sub(from),
+			length = direction.length(),
+			magnitudeVec = new THREE.ArrowHelper(direction.normalize(), from, unit ? 1 : length, color, headLength, headWidth );
+			parent.add( magnitudeVec );
+			if (addCircle) {
+				parent.add( circle(10, from.x, from.y, from.z, color) );				
+			}
 		return parent;
 	}
 	
@@ -186,31 +206,31 @@
 		}
 		
 		var line, lineGeometry,
-				x = 0,
-				y = 0,
-				z = 0,
-				t = 0,
-				alpha = 0,
-				distance = 360*(vx==0?1:vx),
-				c = vx*(1/B),
-				phase = 0;				
-				vy -= B;
-				if (vy < 0)
-					vy = 0;
-					
-				vy *= 10;
-				helixPath = [];
-				lineGeometry = new THREE.Geometry();
-				for (alpha = 0; alpha <= distance; alpha += 1) {					
-					t = alpha*degToRad;
-					x = vy*Math.cos(t*(-Q) - phase) / scaleFactor;
-					y = vy*Math.sin(t*(-Q) - phase) / scaleFactor;
-					z = c*t / scaleFactor;					
-					helixPath.push( new THREE.Vector3(x, y, z) );					
-					lineGeometry.vertices.push(new THREE.Vector3(x, y, z));	
-				}
-				line = new THREE.Line(lineGeometry, lineMaterial);		
-				return line;
+			x = 0,
+			y = 0,
+			z = 0,
+			t = 0,
+			alpha = 0,
+			distance = 360*(vx==0?1:vx),
+			c = vx*(1/B),
+			phase = 0;				
+			vy -= B;
+			if (vy < 0)
+				vy = 0;
+				
+			vy *= 10;
+			helixPath = [];
+			lineGeometry = new THREE.Geometry();
+			for (alpha = 0; alpha <= distance; alpha += 1) {					
+				t = alpha*degToRad;
+				x = vy*Math.cos(t*(-Q) - phase) / scaleFactor;
+				y = vy*Math.sin(t*(-Q) - phase) / scaleFactor;
+				z = c*t / scaleFactor;					
+				helixPath.push( new THREE.Vector3(x, y, z) );					
+				lineGeometry.vertices.push(new THREE.Vector3(x, y, z));	
+			}
+			line = new THREE.Line(lineGeometry, lineMaterial);		
+		return line;
 	}
 	
 	function Sphere(R) {
@@ -279,14 +299,14 @@
 				$("#rotX_slider").slider( "value", scene.rotation.x );
 				$("#rotY_slider").slider( "value", scene.rotation.y );						
 				params.startAngleX = scene.rotation.x*radToDeg;
-				params.startAngleY = scene.rotation.y*radToDeg;
-				params.startAngleZ = scene.rotation.z*radToDeg;
-				
+				params.startAngleY = scene.rotation.y*radToDeg;	
+				params.startAngleZ = scene.rotation.z*radToDeg;	
 				renderer.render(scene, camera);
 			});
 		});
 			
-		$(document).on("mouseup", function(e) {			
+
+		$(document).on("mouseup", function(e) {
 			$(renderer.domElement).off("mousemove");
 		});
 	}
