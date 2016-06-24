@@ -8,6 +8,14 @@
 	height: 100%;
 }
 
+.param_description {
+   display: none;
+   position: absolute;
+   right: 280px; width: 200px;
+   text-align: right;
+   vertical-align: middle;
+}
+
 canvas {
 	position: absolute;
 	left: 0;
