@@ -16,14 +16,16 @@ canvas {
 
 #params {	
 	position: absolute;
-	right: 200px;
+	right: 100px;
 	z-index: 99999;
-	width: 200px;
+	font-size: 13px !important;
+	font-family: arial;
+	color: #fff;
 }
 
 .control {
 	margin-top: 10px;
-	width: 400px;
+	width: 250px;
 }
 
 .control-input-cont {	
@@ -37,20 +39,23 @@ canvas {
 }
 
 .control-input {
-	width: 100px;
+	text-align: center;
+	width: 50px !important;
 	border: 0;
 	color: #f6931f;
 	font-weight:bold;
+	font-style: arial;
 	margin-left: 15px;
+	border-radius: 10px;
 }
 
 .param_letter_mark {
-	font-size: 25px;
+	
 }
 
 .ui-slider-horizontal {
 	width: 100px;
-	height: 23px;
+	height: 10px;
 	background: #ccc;
 }
 
@@ -59,22 +64,32 @@ canvas {
 }
 
 .ui-slider-handle {
-	width: 30px !important;
-	height: 30px !important;
-	background: #8876ff !important;
+	width: 15px !important;
+	height: 15px !important;
+	background: #f95 !important;
 }
 
 .amount {
-	font-size: 20px;
+	color: #000;
+	font-size: 12px;
+	font-weight: bold;
 	width: 150px;
 }
 
 #rotations {
-	margin-top:  30px;
+	margin-top:  15px;
 }
 
 #rotaion_params_title {
-	font-size: 20px;
+	font-size: 12px;
+	font-weight: bolder;
 }
 
-#Q_sign { font-size: 30px; font-weight: bold;}
+#run_particle, #toggle-button {
+	border: 1px solid #ccc;
+	cursor: pointer;
+/* 	background: #555;
+	color: #fff; */
+}
+
+#Q_sign { font-size: 15px; font-weight: bold;}

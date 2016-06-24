@@ -12,7 +12,6 @@
 				B: 							1,				
 				v:							5,
 				B_steps:				150,
-				mode: 					"",
 				particleRadius:	10,
 				startAngleX:		15,
 				startAngleY:		70,
@@ -29,14 +28,14 @@
 	const scaleFactor = 1;	
 	const ratio = window.innerWidth / window.innerHeight;
 	const particleOffset = 200;
-	const fovy = 75;
-	const sceneBGColor = 0xffffff;
+	const fovy = 55;
+	const sceneBGColor = 0x555555;
 	
 	function init() {
 		//	get renderer, camera and scene
-		renderer = window.WebGLRenderingContext ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer(); 
-		//	camera = new THREE.PerspectiveCamera(fovy, ratio, 0.1, 2000); 
-		//	camera.position.set(0, 0, 850);																																				//	needed for perspective camera
+		renderer = window.WebGLRenderingContext ? new THREE.WebGLRenderer({antialias: true}) : new THREE.CanvasRenderer(); 
+		//camera = new THREE.PerspectiveCamera(fovy, ratio, 0.1, 2000); 
+			//camera.position.set(0, 0, 850);																																				//	needed for perspective camera
 
 		camera = new THREE.OrthographicCamera( -window.innerWidth/2, window.innerWidth/2, window.innerHeight/2, -window.innerHeight/2, -2000, 2000 );
 		scene = new THREE.Scene();		
@@ -84,18 +83,7 @@
 		axes.position.set(position && position.x || 0, position && position.y || 0, position && position.z || 0);	
 		
 		if (addLetters) {
-			//var size = 20;
-			//var x = createTextTHREE("X", size)
-			//x.position.set(length-100, 10, -410);
-			//scene.add(x);
-			//
-			//var y = createTextTHREE("Y", size)
-			//y.position.set(410, -300 + length/2, -410);
-			//scene.add(y);
-			//
-			//var z = createTextTHREE("Z", size)
-			//z.position.set(410, 10, length/4);
-			//scene.add(z);
+			//...
 		}
 		return axes;
 	}
@@ -107,8 +95,7 @@
 			vecs.add( buildSegment( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -10*params.vy*params.B, 0, 0 ),hexColor.x, true) ); //		F lorenz
 			vecs.add( buildSegment( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, params.vy*10, 0 ), hexColor.y, false ) ); // +Y		
 			vecs.add( buildSegment( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, params.vx*10	), hexColor.z, false ) ); // +X					
-		} else {
-			
+		} else {			
 			vecs.add( buildSegment( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( -10*params.vy*params.B, 0, 0 ),hexColor.x, true) ); 	
 			vecs.add( buildSegment( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, -params.vy*10, 0 ), hexColor.y, false ) );		
 			vecs.add( buildSegment( new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, params.vx*10 ), hexColor.z, false ) );	
@@ -150,7 +137,7 @@
 	
 	function MagneticVectors() {
 		var parent = new THREE.Object3D(),
-				vcolor = 0x000000,	//	0x00AAFF
+				vcolor = 0x888888,	//	0x00AAFF
 				from,
 				to,
 				vec,
@@ -191,7 +178,7 @@
 	function HelixCurve(vy, vx, B, Q) {
 		var lineMaterial = new THREE.LineBasicMaterial({
 			color: 0x887700,
-			linewidth: 1
+			linewidth: 4
 		});
 		
 		if ('undefined' === typeof Q) {
@@ -235,7 +222,7 @@
 
 	function circle(R, x0, y0, z0, lineColor) {
 		var parent = new THREE.Object3D(), cmaterial, circleGeometry;	
-		cmaterial = new THREE.MeshBasicMaterial( { color: 0xFFFFFF, side: THREE.DoubleSide } );
+		cmaterial = new THREE.MeshBasicMaterial( { color: 0x888888, side: THREE.DoubleSide } );
 		circleGeometry = new THREE.CircleGeometry( R, 64 ),	
 		parent.add(new THREE.Mesh(circleGeometry, cmaterial));																	//	back circle
 
@@ -262,36 +249,49 @@
 		return parent;
 	}
 	
-	function renderOnDrag(object3D, inititalRender) {
+	function renderOnDrag(inititalRender) {
 		if (inititalRender) {
 			renderer.render(scene, camera);		
 		}		
-		//$(renderer.domElement).off("mousedown");			
-		//var a = 0.01;
-		//var amount = 0;	
-		//$(renderer.domElement).on("mousedown", function(e) {			
-		//	var startX = e.clientX, startY = e.clientY;			
-		//	
-		//	$(document).on("mousemove", function(ee) {
-		//		if (ee.clientX > startX) {
-		//			object3D.rotation.y += a;
-		//		} else {
-		//			object3D.rotation.y -= a;					
-		//		}				
-		//		
-		//		//console.log(object3D.rotation.y)
-		//		$("#rotY_amount").val( object3D.rotation.y*radToDeg );
-		//		params.startAngleX = object3D.rotation.x*radToDeg;
-		//		params.startAngleY = object3D.rotation.y*radToDeg;
-		//		params.startAngleZ = object3D.rotation.z*radToDeg;
-		//		startX = ee.clientX;		
-		//		renderer.render(scene, camera);		//		
-		//	});
-		//});
-		//	
-		//$(renderer.domElement).on("mouseup", function(e) {			
-		//	$(document).off("mousemove");
-		//});
+		
+		$(renderer.domElement).off("mousedown");	
+		$(renderer.domElement).off("mousemove");	
+		$(renderer.domElement).off("mouseup");	
+		$(document).off("mouseup");	
+		
+		$(renderer.domElement).on("mousedown", function(e) {			
+			var startX = e.clientX,
+					startY = e.clientY,		
+					diffX = startX, 
+					diffY =	startY,
+					rotX, rotY;
+			
+			$(renderer.domElement).on("mousemove", function(ee) {
+				diffX = ee.clientX - startX;
+				diffY = ee.clientY - startY;				
+				scene.rotation.x += diffY / 200;
+				scene.rotation.y += diffX / 200;				
+				rotX = (scene.rotation.x*radToDeg).toFixed(0);
+				rotY = (scene.rotation.y*radToDeg).toFixed(0);
+				startX = ee.clientX;	
+				startY = ee.clientY;	
+				
+				$("#rotX_amount").val( rotX );
+				$("#rotY_amount").val( rotY );				
+				$("#rotX_slider").slider( "value", scene.rotation.x );
+				$("#rotY_slider").slider( "value", scene.rotation.y );						
+				params.startAngleX = scene.rotation.x*radToDeg;
+				params.startAngleY = scene.rotation.y*radToDeg;
+				params.startAngleZ = scene.rotation.z*radToDeg;
+				
+				renderer.render(scene, camera);		//		
+			});
+		});
+			
+		$(document).on("mouseup", function(e) {			
+			$(renderer.domElement).off("mousemove");
+			$(renderer.domElement).off("mouseup");
+		});
 	}
 	
 	function createTextOn2DCanvas(text, x, y, w, h, addTopArrow, fontSize) {
@@ -330,11 +330,7 @@
 			}
 		);
 		var textg = new THREE.ShapeGeometry( textShapes );
-		var textMesh = new THREE.Mesh( textg, new THREE.MeshBasicMaterial( { color: 0x000000 } ) ) ;
-		
-		//var text_geo = new THREE.TextGeometry(text, {size: size, weight: "normal"});		
-		//var text_mat = new THREE.MeshBasicMaterial({color: "black"});		
-		//var textMesh = new THREE.Mesh(text_geo, text_mat);
+		var textMesh = new THREE.Mesh( textg, new THREE.MeshBasicMaterial( { color: 0xffffff, side: THREE.DoubleSide } ) ) ;
 		return textMesh;
 	}
 
@@ -379,7 +375,7 @@
 		helixAndParticle.position.set(params.Q < 0 ? -a : a, 0, -length/2);																					//	centering helix curve and particle		
 		scene.rotation.set(params.startAngleX*degToRad, params.startAngleY*degToRad, params.startAngleZ*degToRad);		
 		particle.position.set(helixPath[0].x, helixPath[0].y, helixPath[0].z);																			//	place particle at the helix curve begining
-		renderOnDrag(scene, false);
+		renderOnDrag(false);
 		renderer.render(scene, camera);
 	}
 
@@ -413,7 +409,6 @@
 		$("#run_particle").click(function() {
 			if (!running) {
 				$(this).html("Again");
-				//console.log(	-2*Math.atan2(helixPath[1].x-helixPath[0].x, helixPath[1].y-helixPath[0].y) 	)
 				runParticle(i, -2*Math.atan2(helixPath[1].x-helixPath[0].x, helixPath[1].y-helixPath[0].y)	);
 			}	else {
 				$(this).html("Run");
@@ -583,5 +578,5 @@
 	handleControlsInput();
 	controlsSliding();
 	initDefaults();
-	renderOnDrag(scene, true);	
+	renderOnDrag(true);	
 })(jQuery);
